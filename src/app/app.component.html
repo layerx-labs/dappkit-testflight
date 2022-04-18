@@ -1,0 +1,22 @@
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav>
+    <app-connector></app-connector>
+<app-navbar></app-navbar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="mat-elevation-z3" [style.position]="'relative'">
+      <mat-toolbar color="primary">
+        <button mat-icon-button aria-label="open menu" (click)="sidenav.toggle()">
+         <mat-icon>menu</mat-icon>
+       </button>
+       <span>dappkit</span>
+       </mat-toolbar>
+    </div>
+    <div>
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

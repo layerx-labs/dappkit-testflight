@@ -1,0 +1,29 @@
+<ng-container *ngIf="!connector.connected">
+  <ng-container *ngIf=showInputs>
+    <div *ngIf=showRpcUrl>
+      <mat-form-field appearance="fill">
+        <mat-label>RPC Url</mat-label>
+        <input matInput [formControl]="rpcUrlControl" placeholder="Ex. http://127.0.0.1:8545" />
+        <mat-error *ngIf="rpcControlErrorText">{{rpcControlErrorText}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf=showPrivateKey>
+      <mat-form-field appearance="fill">
+        <mat-label>Private Key</mat-label>
+        <input matInput [formControl]="rpcPrivateKeyControl" placeholder="Optional" />
+      </mat-form-field>
+    </div>
+  </ng-container>
+
+  <div>
+    <button mat-raised-button color="primary" (click)="connect()">connect</button>
+  </div>
+
+</ng-container>
+<ng-container *ngIf="connector.connected">
+  <mat-toolbar>
+    <span>{{connector.address}}</span>
+  </mat-toolbar>
+</ng-container>
+

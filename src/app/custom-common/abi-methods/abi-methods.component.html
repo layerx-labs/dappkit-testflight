@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="item">
+    <mat-card>
+      <mat-card-title>Methods</mat-card-title>
+      <mat-card-subtitle>
+        <span *ngIf="!connector.connected">You need to connect first</span>
+        <span *ngIf="connector.connected && !models.activeContractAddress$.value">You need to deploy and select and contract Address</span>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <mat-accordion multi>
+          <mat-expansion-panel *ngFor="let method of methods">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{method.name}}<span *ngIf="method.arguments.length" class="mat-expansion-panel-header-description">(<span *ngFor="let a of method.arguments; let i = index;">{{a.name}} {{i+1 < method.arguments.length && ',' || ''}}</span>)</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngIf="method.arguments.length">
+              <p *ngFor="let arg of method.arguments">
+                <mat-form-field appearence="fill" >
+                  <mat-label>{{arg.name}}</mat-label>
+                  <input matInput [formControl]="arg.control" [placeholder]="arg.type" />
+                </mat-form-field>
+              </p>
+
+            </ng-container>
+              <mat-action-row>
+                <button mat-button color="primary" (click)="callContractMethod(method)">{{method.view ? 'call' : 'send'}}</button>
+              </mat-action-row>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="item" [style.position]="'sticky'" [style.top]="'1rem'">
+    <mat-card>
+      <mat-card-title>Output <mat-icon *ngIf="connector.pending$ | async">pending</mat-icon></mat-card-title>
+      <mat-card-content><pre>{{ output }}</pre></mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+

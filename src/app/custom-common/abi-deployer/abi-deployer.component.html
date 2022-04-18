@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-title>Deploy</mat-card-title>
+  <mat-card-subtitle *ngIf="!connector.connected">You need to connect first</mat-card-subtitle>
+  <mat-card-content>
+    <div class="container" [style.margin-bottom]="'1rem'">
+      <div class="item">
+        <p *ngFor="let entry of deployArguments">
+          <mat-form-field appearence="fill">
+            <mat-label>{{entry.name}}</mat-label>
+            <input matInput [formControl]="entry.control" [placeholder]="entry.type" />
+            <mat-error *ngIf="entry.control.hasError('required')">{{entry.name}} is required</mat-error>
+          </mat-form-field>
+        </p>
+      </div>
+      <div class="item">
+        <mat-selection-list #contracts [multiple]="false" (selectionChange)="loadContractAddress($event.option.value)">
+          <mat-list-option *ngFor="let address of prevContracts" [value]="address">
+            {{address}}
+          </mat-list-option>
+        </mat-selection-list>
+        <mat-form-field appearence="fill">
+          <mat-label>Custom contract address</mat-label>
+          <input matInput [formControl]="customContractAddress" />
+          <mat-error *ngIf="customContractAddress.hasError('required')">contract address is required</mat-error>
+        </mat-form-field>
+
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button (click)="loadContractAddress()" [disabled]="!connector.connected || !customContractAddress.value || customContractAddress.invalid" mat-raised-button>Load custom address</button>
+    <button (click)="deployJsonAbi()" [disabled]="!connector.connected" mat-raised-button color="primary">deploy</button>
+  </mat-card-actions>
+</mat-card>

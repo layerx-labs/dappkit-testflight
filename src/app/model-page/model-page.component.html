@@ -1,0 +1,6 @@
+<ng-container *ngIf="activeModel">
+  <app-abi-connector [model]="activeModel"></app-abi-connector>
+</ng-container>
+<ng-container *ngIf="!activeModel">
+  <p>No active model</p>
+</ng-container>
