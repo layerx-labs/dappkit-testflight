@@ -1,25 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ConnectorComponent } from './connector/connector.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { AbiConnectorComponent } from './abi-connector/abi-connector.component';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatListModule} from '@angular/material/list';
-import { PageHeaderComponent } from './page-header/page-header.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import { AbiInteractionComponent } from './abi-interaction/abi-interaction.component';
-import { AbiDeployerComponent } from './abi-deployer/abi-deployer.component';
 import { MatCardModule } from '@angular/material/card';
-import { AbiMethodsComponent } from './abi-methods/abi-methods.component';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MarkdownModule } from 'ngx-markdown';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { AbiConnectorComponent } from './abi-connector/abi-connector.component';
+import { AbiDeployerComponent } from './abi-deployer/abi-deployer.component';
+import { AbiInteractionComponent } from './abi-interaction/abi-interaction.component';
+import { AbiMethodsComponent } from './abi-methods/abi-methods.component';
+import { ConnectorComponent } from './connector/connector.component';
+import { PageHeaderComponent } from './page-header/page-header.component';
 
 const sharedModules = [
   MatButtonModule,
@@ -35,7 +33,6 @@ const sharedModules = [
   MatListModule,
   MatCardModule,
   MatExpansionModule,
-  MarkdownModule.forRoot(),
 ];
 
 @NgModule({
@@ -45,19 +42,15 @@ const sharedModules = [
     PageHeaderComponent,
     AbiInteractionComponent,
     AbiDeployerComponent,
-    AbiMethodsComponent
+    AbiMethodsComponent,
   ],
   imports: [
     ...sharedModules,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatTabsModule
+    MatTabsModule,
   ],
-  exports: [
-    ...sharedModules,
-    ConnectorComponent,
-    AbiConnectorComponent,
-  ]
+  exports: [...sharedModules, ConnectorComponent, AbiConnectorComponent],
 })
-export class CustomCommonModule { }
+export class CustomCommonModule {}
