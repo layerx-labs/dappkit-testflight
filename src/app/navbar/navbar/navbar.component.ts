@@ -16,7 +16,7 @@ class CustomLink {
 })
 export class NavbarComponent implements OnInit {
   constructor(readonly models: ModelsService) {}
-  links: any;
+  links: CustomLink[] = [];
 
   ngOnInit(): void {
     this.models.models$.subscribe((models) => {

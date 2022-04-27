@@ -2,7 +2,7 @@
   <mat-list-item *ngFor="let link of links" [routerLink]="link.href">
     <a>{{ link.name }}</a>
   </mat-list-item>
-  <mat-nav-list (click)="uploadFile.click()">
+  <mat-nav-list (click)="uploadFile.click()" *ngIf="links.length">
     <button mat-raised-button color="primary">Load JSON Abi</button>
     <input
       #uploadFile
