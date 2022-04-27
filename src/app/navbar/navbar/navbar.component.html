@@ -1,5 +1,15 @@
 <mat-nav-list>
   <mat-list-item *ngFor="let link of links" [routerLink]="link.href">
-    <a>{{link.name}}</a>
+    <a>{{ link.name }}</a>
   </mat-list-item>
+  <mat-nav-list (click)="uploadFile.click()">
+    <button mat-raised-button color="primary">Load JSON Abi</button>
+    <input
+      #uploadFile
+      (change)="upload($event)"
+      type="file"
+      style="display: none"
+      accept="application/JSON"
+    />
+  </mat-nav-list>
 </mat-nav-list>
