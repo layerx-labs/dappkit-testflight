@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Web3Connection, Model, Network, ERC20, Erc721Standard } from '@taikai/dappkit';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Web3Connection } from '@taikai/dappkit';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +32,5 @@ export class ConnectorService {
     this._address = await this._web3Connection.getAddress();
     this.connected$.next(this.connected);
     this._lastConnectedHost = web3Host;
-
   }
-
-
 }

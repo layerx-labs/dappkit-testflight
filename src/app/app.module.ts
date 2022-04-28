@@ -7,15 +7,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RoutingModule } from './routing.module';
 import { HomeComponent } from './home/home.component';
 import { ModelPageComponent } from './model-page/model-page.component';
-import { Models } from './app.config';
 import { NavbarModule } from './navbar/navbar.module';
-
+import { ModuleLoadComponent } from './module-load/module-load.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ModelPageComponent,
+    ModuleLoadComponent,
   ],
   imports: [
     BrowserModule,
