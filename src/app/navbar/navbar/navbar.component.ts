@@ -14,8 +14,13 @@ export class NavbarComponent implements OnInit {
 
   constructor(readonly models: ModelsService) { }
 
-  ngOnInit(): void {}
+  links: CustomLink[] = [];
 
-  links = Object.keys(this.models.Models).map(key => new CustomLink(key, `/model/${key}`));
-
+  ngOnInit(): void {
+    this.models.Models$.subscribe((models) => {
+      this.links = Object.keys(models).map(
+        (key) => new CustomLink(key, `/model/${key}`)
+      );
+    });
+  }
 }
