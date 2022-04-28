@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { CustomCommonModule } from './custom-common/custom-common.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { RoutingModule } from './routing.module';
 import { HomeComponent } from './home/home.component';
 import { ModelPageComponent } from './model-page/model-page.component';
-import { ModuleLoadComponent } from './module-load/module-load.component';
+import { Models } from './app.config';
 import { NavbarModule } from './navbar/navbar.module';
-import { RoutingModule } from './routing.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ModelPageComponent,
-    ModuleLoadComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,9 +23,11 @@ import { RoutingModule } from './routing.module';
     BrowserAnimationsModule,
     MatSidenavModule,
     RoutingModule,
-    NavbarModule,
+    NavbarModule
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [
+
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
