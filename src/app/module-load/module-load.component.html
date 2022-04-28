@@ -13,6 +13,7 @@
         accept="application/JSON"
       />
       <h5 *ngIf="fileName">loaded: {{ fileName }}</h5>
+      <h4 class="errorMsg" *ngIf="errorMsg">error: {{ errorMsg }}</h4>
     </div>
   </mat-card-content>
 </mat-card>

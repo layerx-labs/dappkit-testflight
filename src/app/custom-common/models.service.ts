@@ -34,10 +34,10 @@ export class ModelsService {
 
   addModel(abi: any, name: string): string {
     const currentList = this.Models$.value;
-    const existis = Object.keys(currentList).filter(
-      (key) => key.split('(')[0] === name
+    const exists = Object.keys(currentList).filter(
+      (key) => key.startsWith(name)
     );
-    const key = existis.length > 0 ? `${name}_${existis?.length + 1}` : name;
+    const key = name + (exists.length && `_${ exists.length+1}` || '')
     this.Abis[key] = abi;
     this.Models$.next({ ...currentList, [key]: Model });
     return key;

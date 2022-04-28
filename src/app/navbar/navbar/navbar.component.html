@@ -2,7 +2,8 @@
   <mat-list-item *ngFor="let link of links" [routerLink]="link.href">
     <a>{{ link.name }}</a>
   </mat-list-item>
+  <mat-divider></mat-divider>
   <mat-list-item routerLink="/addModule">
-    <a>Load Abi Json</a>
+    <a>Custom ABI</a>
   </mat-list-item>
 </mat-nav-list>
