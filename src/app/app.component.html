@@ -2,7 +2,7 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav>
     <app-connector></app-connector>
-<app-navbar></app-navbar>
+<app-navbar (sidenav)="sidenav.toggle()"></app-navbar>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="mat-elevation-z3" [style.position]="'relative'">

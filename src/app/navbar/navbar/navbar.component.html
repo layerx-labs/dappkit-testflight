@@ -1,9 +1,9 @@
 <mat-nav-list>
-  <mat-list-item *ngFor="let link of links" [routerLink]="link.href">
+  <mat-list-item *ngFor="let link of links" (click)="toggle()" [routerLink]="link.href">
     <a>{{ link.name }}</a>
   </mat-list-item>
   <mat-divider></mat-divider>
-  <mat-list-item routerLink="/addModule">
+  <mat-list-item (click)="toggle()" routerLink="/addModule">
     <a>Custom ABI</a>
   </mat-list-item>
 </mat-nav-list>
