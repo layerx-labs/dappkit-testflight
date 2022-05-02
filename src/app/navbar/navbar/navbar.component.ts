@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, EventEmitter, Output} from '@angular/core';
 import { ModelsService } from 'src/app/custom-common/models.service';
 
 class CustomLink {
@@ -11,7 +11,7 @@ class CustomLink {
   styleUrls: ['./navbar.component.sass']
 })
 export class NavbarComponent implements OnInit {
-
+  @Output() sidenav: EventEmitter<any> = new EventEmitter();
   constructor(readonly models: ModelsService) { }
 
   links: CustomLink[] = [];
@@ -22,5 +22,9 @@ export class NavbarComponent implements OnInit {
         (key) => new CustomLink(key, `/model/${key}`)
       );
     });
+  }
+
+  toggle() {
+    this.sidenav.emit();
   }
 }
