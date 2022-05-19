@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ERC20, Erc721Standard, Model, Network } from '@taikai/dappkit';
 import { TransactionReceipt } from '@taikai/dappkit/dist/src/interfaces/web3-core';
 import { BehaviorSubject } from 'rxjs';
+import { CustomModel } from 'src/models/customModel';
 import { ConnectorService } from './connector.service';
 
 @Injectable({
@@ -19,7 +20,7 @@ export class ModelsService {
     Erc721Standard,
   });
 
-  Abis: { [k: string]: any } = {};
+  jsonAbi: { [contractsNames: string]: any } = {};
 
   output$ = new BehaviorSubject<TransactionReceipt|string>("");
 
@@ -32,22 +33,22 @@ export class ModelsService {
     this.deployedContracts$.next([...values, { rpc, model, contractAddress }]);
   }
 
-  addModel(abi: any, name: string): string {
+  addModel(contract: any): string {
     const currentList = this.Models$.value;
     const exists = Object.keys(currentList).filter(
-      (key) => key.startsWith(name)
+      (key) => key.startsWith(contract?.contractName)
     );
-    const key = name + (exists.length && `_${ exists.length+1}` || '')
-    this.Abis[key] = abi;
-    this.Models$.next({ ...currentList, [key]: Model });
+    const key = contract.contractName + (exists.length && `_${exists.length+1}` || '')
+    this.jsonAbi[key] = contract;
+    this.Models$.next({ ...currentList, [key]: CustomModel });
     return key;
   }
 
   initModule(moduleName: string) {
     const module = this.Models$.value[moduleName];
-    const abi = this.Abis?.[moduleName];
-    const instance = abi
-      ? new module(this.connector.web3Connection, abi)
+    const jsonAbi = this.jsonAbi?.[moduleName];
+    const instance = jsonAbi
+      ? new module(this.connector.web3Connection, jsonAbi)
       : new module(this.connector.web3Connection);
     return instance;
   }
