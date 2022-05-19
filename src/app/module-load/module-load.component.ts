@@ -27,25 +27,22 @@ export class ModuleLoadComponent implements OnInit {
       return
     }
 
-    const name = file?.name?.split('.')[0];
-    this.fileName = name;
-
     const reader = new FileReader();
     reader.onloadend = async () => {
       if (reader?.result) {
         try{
-          const contract = JSON.parse(reader?.result?.toString());
-          if (contract.abi) {
-            const keyName = this.models.addModel(contract.abi, name);
+          const jsonAbi = JSON.parse(reader?.result?.toString());
+          if (jsonAbi?.abi && jsonAbi.bytecode) {
+            const keyName = this.models.addModel(jsonAbi);
             if(keyName) this.router.navigateByUrl(`/model/${keyName}`);
           } else {
             this.fileName = ''
-            this.errorMsg = 'ABI not found';
+            this.errorMsg = "JSON ABI can't loaded";
           }
         }catch(e){
           console.error(e)
           this.fileName = ''
-          this.errorMsg = 'ABI not found';
+          this.errorMsg = 'File not found';
         }
       }
     };

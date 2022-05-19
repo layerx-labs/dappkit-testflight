@@ -85,6 +85,7 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
       this.models.output$.next(deployed);
       this.addNewContract(deployed.contractAddress);
     } catch (e) {
+      console.error(e)
       this.models.output$.next(e as any);
     }
   }
