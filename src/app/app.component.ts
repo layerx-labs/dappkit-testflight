@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-import { ConnectorService } from './custom-common/connector.service';
-import { Network, Model } from '@taikai/dappkit';
+import {Component, Injector} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +6,7 @@ import { Network, Model } from '@taikai/dappkit';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  title = 'dappkit-example';
+  constructor(readonly injector: Injector) {}
+  dappkitVersion = this.injector.get('DAPPKIT_VERSION');
 
 }

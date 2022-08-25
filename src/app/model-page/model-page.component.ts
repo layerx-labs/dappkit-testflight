@@ -11,27 +11,23 @@ import { ModelsService } from '../custom-common/models.service';
   styleUrls: ['./model-page.component.sass']
 })
 export class ModelPageComponent implements OnInit, OnDestroy {
-  constructor(
-    readonly connector: ConnectorService,
-    readonly models: ModelsService,
-    private activeRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(readonly connector: ConnectorService,
+              readonly models: ModelsService,
+              private activeRoute: ActivatedRoute,
+              private router: Router) {}
 
   private destroy$ = new Subject<boolean>();
 
   changeModelOnPage() {
     const modelName = this.activeRoute.snapshot.paramMap.get('model');
-    if (
-      !modelName ||
-      !Object.keys(this.models.Models$.value).includes(modelName)
-    )
+    if (!modelName || !Object.keys(this.models.Models$.value).includes(modelName))
       this.router.navigate(['/']);
+
     else this.loadModelFromRouteParam(modelName);
   }
 
   ngOnInit(): void {
-    //this.changeModelOnPage();
+
     this.activeRoute.paramMap
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.changeModelOnPage())
@@ -51,7 +47,10 @@ export class ModelPageComponent implements OnInit, OnDestroy {
 
   loadModelFromRouteParam(modelName: string) {
     const _proxy = this.models.initModule(modelName);
-    if (this.connector.connected) _proxy.loadAbi();
+
+    if (this.connector.connected$.value)
+      _proxy.loadAbi();
+
     this.models.activeModel$.next(_proxy);
   }
 

@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Model } from '@taikai/dappkit';
-import { Subject, takeUntil } from 'rxjs';
+import {map, Subject, takeUntil, combineLatest, filter} from 'rxjs';
 import { AbiItem } from 'web3-utils';
 import { ConnectorService } from '../connector.service';
 import { ModelsService } from '../models.service';
@@ -36,7 +36,7 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
       type,
       name: name || `args${i}`,
       control: new FormControl(
-        { value: '', disabled: !this.connector.connected },
+        { value: '', disabled: !this.connector.connected$.value },
         [Validators.required]
       ),
     }));
@@ -58,9 +58,12 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
         this.deployArguments.forEach(entry => entry.control[!value ? 'disable' : 'enable']({emitEvent: true}));
       });
 
-    this.models.deployedContracts$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((values: {model: string, contractAddress: string}[]) => {
+
+    combineLatest(this.models.deployedContracts$, this.connector.connected$)
+      .pipe(takeUntil(this.destroy$),
+        filter(([contracts, connected]) => !!(connected && contracts.length)),
+        map(([contracts, ]) => contracts.filter(m => m.rpc === this.connector.lastConnectedHost)))
+      .subscribe((values) => {
         const modelName = this.route.snapshot.paramMap.get('model');
         this.prevContracts = values.filter(({model}) => model === modelName!).map(({contractAddress}) => contractAddress);
       })

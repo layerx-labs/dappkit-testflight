@@ -3,8 +3,10 @@
     <mat-card>
       <mat-card-title>Methods</mat-card-title>
       <mat-card-subtitle>
-        <span *ngIf="!connector.connected">You need to connect first</span>
-        <span *ngIf="connector.connected && !models.activeContractAddress$.value">You need to deploy and select and contract Address</span>
+        <app-not-connected-or-active-model notConnected="You need to connect first"
+                                           [modelValue$]="models.activeContractAddress$"
+                                           noModelValue="You need to deploy and select and contract Address">
+        </app-not-connected-or-active-model>
       </mat-card-subtitle>
       <mat-card-content>
         <mat-accordion multi>

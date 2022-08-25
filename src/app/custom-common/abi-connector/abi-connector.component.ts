@@ -10,10 +10,8 @@ import { ConnectorService } from '../connector.service';
 })
 export class AbiConnectorComponent implements OnInit {
   @Input() model!: Model;
-  constructor(
-    readonly connector: ConnectorService,
-    readonly route: ActivatedRoute
-  ) {}
+  constructor(readonly connector: ConnectorService,
+              readonly route: ActivatedRoute) {}
 
   ngOnInit(): void {}
 }

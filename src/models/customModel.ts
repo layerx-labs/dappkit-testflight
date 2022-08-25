@@ -24,6 +24,6 @@ export class CustomModel extends Model<any> implements Deployable {
       data: this._NetworkAbi?.bytecode,
       arguments: [...args],
     };
-    return this.deploy(deployOptions, this.web3Connection.Account);
+    return this.deploy(deployOptions, this.connection.Account);
   }
 }

@@ -1,29 +1,40 @@
-<ng-container *ngIf="!connector.connected">
-  <ng-container *ngIf=showInputs>
-    <div *ngIf=showRpcUrl>
-      <mat-form-field appearance="fill">
-        <mat-label>RPC Url</mat-label>
-        <input matInput [formControl]="rpcUrlControl" placeholder="Ex. http://127.0.0.1:8545" />
-        <mat-error *ngIf="rpcControlErrorText">{{rpcControlErrorText}}</mat-error>
-      </mat-form-field>
-    </div>
+<ng-container *ngIf="!(connector.connected$ | async)">
+  <div [style.padding]="'1rem .3rem 0 0'">
 
-    <div *ngIf=showPrivateKey>
-      <mat-form-field appearance="fill">
-        <mat-label>Private Key</mat-label>
-        <input matInput [formControl]="rpcPrivateKeyControl" placeholder="Optional" />
-      </mat-form-field>
-    </div>
-  </ng-container>
+      <ng-container [ngSwitch]="hasMetamask">
+        <ng-container *ngSwitchCase="true">
+          <ng-container *ngIf=showInputs>
+            <div *ngIf=showRpcUrl>
+              <mat-form-field appearance="fill" [style.display]="'block'">
+                <mat-label>RPC Url</mat-label>
+                <input matInput [formControl]="rpcUrlControl" placeholder="Ex. http://127.0.0.1:8545"/>
+                <mat-error *ngIf="rpcControlErrorText">{{rpcControlErrorText}}</mat-error>
+              </mat-form-field>
+            </div>
 
-  <div>
-    <button mat-raised-button color="primary" (click)="connect()">connect</button>
+            <div *ngIf=showPrivateKey>
+              <mat-form-field appearance="fill" [style.display]="'block'">
+                <mat-label>Private Key</mat-label>
+                <input matInput [formControl]="rpcPrivateKeyControl" placeholder="Optional"/>
+              </mat-form-field>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="false"><a href="https://metamask.io/" target="_blank">Install metamask</a>
+        </ng-container>
+      </ng-container>
+
+    <div>
+      <button mat-raised-button color="primary" [style.width]="'100%'" (click)="connector.connect()">connect</button>
+    </div>
   </div>
-
 </ng-container>
-<ng-container *ngIf="connector.connected">
+<ng-container *ngIf="activeAddress">
   <mat-toolbar>
-    <span>{{connector.address}}</span>
+    <mat-toolbar-row [style.justify-content]="'center'"><span>{{activeAddress}}</span></mat-toolbar-row>
+    <mat-toolbar-row [style]="{justifyContent: 'center', height: 'auto', marginTop: '-1.5rem'}" *ngIf="(connector.wrongChain$ | async)">
+      <span [style.color]="'darkred'" [style.font-weight]="'lighter'" [style.font-size]="'small'">Please, change to the correct chain</span>
+    </mat-toolbar-row>
   </mat-toolbar>
 </ng-container>
 

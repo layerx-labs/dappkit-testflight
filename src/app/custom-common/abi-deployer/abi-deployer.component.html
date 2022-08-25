@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>Deploy</mat-card-title>
-  <mat-card-subtitle *ngIf="!connector.connected">You need to connect first</mat-card-subtitle>
+  <mat-card-subtitle *ngIf="!(connector.connected$ | async)">You need to connect first</mat-card-subtitle>
   <mat-card-content>
     <div class="container" [style.margin-bottom]="'1rem'">
       <div class="item">
@@ -28,7 +28,7 @@
     </div>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button (click)="loadContractAddress()" [disabled]="!connector.connected || !customContractAddress.value || customContractAddress.invalid" mat-raised-button>Load custom address</button>
-    <button (click)="deployJsonAbi()" [disabled]="!connector.connected" mat-raised-button color="primary">deploy</button>
+    <button (click)="loadContractAddress()" [disabled]="!(connector.connected$ | async) || !customContractAddress.value || customContractAddress.invalid" mat-raised-button>Load custom address</button>
+    <button (click)="deployJsonAbi()" [disabled]="!(connector.connected$ | async)" mat-raised-button color="primary">deploy</button>
   </mat-card-actions>
 </mat-card>

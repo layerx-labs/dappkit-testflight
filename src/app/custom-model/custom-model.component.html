@@ -1,0 +1,21 @@
+<app-page-header title="Upload a custom ABI"></app-page-header>
+<div class="construct" [style.margin-top]="'3rem'">
+  <mat-card>
+    <mat-card-title>Choose a ABI</mat-card-title>
+    <mat-card-subtitle>Choose and upload your own Contract.json to be parsed</mat-card-subtitle>
+    <mat-card-content>
+      <div class="loadContainer">
+        <button (click)="uploadFile.click()" mat-raised-button color="primary">
+          Load JSON Abi
+        </button>
+        <input #uploadFile
+               (change)="upload($event)"
+               type="file"
+               style="display: none"
+               accept="application/JSON" />
+        <h5 *ngIf="fileName">loaded: {{ fileName }}</h5>
+        <h4 class="errorMsg" *ngIf="errorMsg">error: {{ errorMsg }}</h4>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

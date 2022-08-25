@@ -1,8 +1,10 @@
+<app-connection></app-connection>
 
 <mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav>
-    <app-connector></app-connector>
-<app-navbar (sidenav)="sidenav.toggle()"></app-navbar>
+  <mat-sidenav #sidenav [style.width]="'20.3rem'">
+    <app-connector [showInputs]="false"></app-connector>
+    <mat-divider></mat-divider>
+    <app-navbar (sidenav)="sidenav.toggle()"></app-navbar>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="mat-elevation-z3" [style.position]="'relative'">
@@ -10,13 +12,11 @@
         <button mat-icon-button aria-label="open menu" (click)="sidenav.toggle()">
          <mat-icon>menu</mat-icon>
        </button>
-       <span>dappkit</span>
+       <span>@taikai/dappkit#{{dappkitVersion}}</span>
        </mat-toolbar>
     </div>
     <div>
-
       <router-outlet></router-outlet>
-
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

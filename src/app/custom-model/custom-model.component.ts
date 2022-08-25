@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModelsService } from '../custom-common/models.service';
 @Component({
-  selector: 'app-module-load',
-  templateUrl: './module-load.component.html',
-  styleUrls: ['./module-load.component.sass'],
+  selector: 'app-custom-model',
+  templateUrl: './custom-model.component.html',
+  styleUrls: ['./custom-model.component.sass'],
 })
-export class ModuleLoadComponent implements OnInit {
+export class CustomModelComponent implements OnInit {
   constructor(readonly models: ModelsService, private router: Router) {}
 
   fileName = '';

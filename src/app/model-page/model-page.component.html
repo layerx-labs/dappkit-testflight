@@ -1,6 +1,18 @@
-<ng-container *ngIf="activeModel">
+<ng-container *ngIf="!activeModel || !(connector.connected$ | async)">
+  <div class="construct">
+    <mat-card [style.margin-top]="'3rem'">
+      <mat-card-title>Warning</mat-card-title>
+      <app-not-connected-or-active-model notConnected="Not connected. Please, initiate a RPC connection on the sidenav"
+                                         [modelValue$]="models.activeModel$"
+                                         noModelValue="No active model. Please choose one from the sidenav">
+      </app-not-connected-or-active-model>
+      <mat-card-content>
+        <div class="container"></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-container>
+<ng-container *ngIf="activeModel && (connector.connected$ | async)">
   <app-abi-connector [model]="activeModel"></app-abi-connector>
 </ng-container>
-<ng-container *ngIf="!activeModel">
-  <p>No active model</p>
-</ng-container>
+

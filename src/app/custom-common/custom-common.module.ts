@@ -18,6 +18,11 @@ import { AbiInteractionComponent } from './abi-interaction/abi-interaction.compo
 import { AbiMethodsComponent } from './abi-methods/abi-methods.component';
 import { ConnectorComponent } from './connector/connector.component';
 import { PageHeaderComponent } from './page-header/page-header.component';
+import {NavbarComponent} from "./navbar/navbar.component";
+import {RoutingModule} from "../routing.module";
+import { TruncateWalletPipe } from './pipes/truncate-wallet.pipe';
+import { ConnectionComponent } from './connection/connection.component';
+import { NotConnectedOrActiveModelComponent } from './not-connected-or-active-model/not-connected-or-active-model.component';
 
 const sharedModules = [
   MatButtonModule,
@@ -33,6 +38,7 @@ const sharedModules = [
   MatListModule,
   MatCardModule,
   MatExpansionModule,
+  RoutingModule,
 ];
 
 @NgModule({
@@ -43,6 +49,10 @@ const sharedModules = [
     AbiInteractionComponent,
     AbiDeployerComponent,
     AbiMethodsComponent,
+    NavbarComponent,
+    TruncateWalletPipe,
+    ConnectionComponent,
+    NotConnectedOrActiveModelComponent,
   ],
   imports: [
     ...sharedModules,
@@ -51,6 +61,15 @@ const sharedModules = [
     MatButtonModule,
     MatTabsModule,
   ],
-  exports: [...sharedModules, ConnectorComponent, AbiConnectorComponent],
+  exports: [
+    ...sharedModules,
+    ConnectorComponent,
+    PageHeaderComponent,
+    AbiConnectorComponent,
+    NavbarComponent,
+    TruncateWalletPipe,
+    NotConnectedOrActiveModelComponent,
+    ConnectionComponent,
+  ],
 })
 export class CustomCommonModule {}
