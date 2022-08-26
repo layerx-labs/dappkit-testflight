@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Model } from '@taikai/dappkit';
-import { Subject, takeUntil } from 'rxjs';
+import {filter, Subject, takeUntil, takeWhile} from 'rxjs';
 import { ConnectorService } from '../custom-common/connector.service';
 import { ModelsService } from '../custom-common/models.service';
 
@@ -29,7 +29,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.activeRoute.paramMap
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$),)
       .subscribe(() => this.changeModelOnPage())
 
     this.models.activeModel$
@@ -39,7 +39,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       });
 
     this.connector.connected$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$), filter(v => !!v))
       .subscribe(() => this.changeModelOnPage())
   }
 
@@ -48,10 +48,11 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   loadModelFromRouteParam(modelName: string) {
     const _proxy = this.models.initModule(modelName);
 
-    if (this.connector.connected$.value)
-      _proxy.loadAbi();
+    _proxy.loadAbi();
 
     this.models.activeModel$.next(_proxy);
+    console.log(_proxy);
+    console.log(this.models.activeModel$.getValue())
   }
 
   ngOnDestroy() {

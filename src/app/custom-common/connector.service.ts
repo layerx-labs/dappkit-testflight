@@ -14,8 +14,8 @@ export class ConnectorService {
   readonly wrongChain$ = new BehaviorSubject<boolean>(false);
   readonly address$ = new BehaviorSubject<string>('');
 
-  private _lastConnectedHost: string = ``;
-  get lastConnectedHost() { return this._lastConnectedHost; }
+  private _lastChainId: number = 0;
+  get lastChainId() { return this._lastChainId; }
 
   private _web3Connection!: Web3Connection;
   get web3Connection() { return this._web3Connection; }
@@ -25,11 +25,11 @@ export class ConnectorService {
 
     await connection.connect();
     const address = await connection.getAddress();
-    this._lastConnectedHost = (connection.eth.currentProvider as any).host;
+
+    this._lastChainId = await connection.eth.getChainId();
+    this._web3Connection = connection;
 
     this.address$.next(address);
     this.connected$.next(!!address);
-
-    this._web3Connection = connection;
   }
 }

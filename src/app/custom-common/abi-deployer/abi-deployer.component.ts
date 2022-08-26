@@ -14,33 +14,31 @@ import { ModelsService } from '../models.service';
 })
 export class AbiDeployerComponent implements OnInit, OnDestroy {
   @Input() abi!: AbiItem[];
-  constructor(
-    readonly connector: ConnectorService,
-    readonly models: ModelsService,
-    readonly route: ActivatedRoute
-  ) {}
+  constructor(readonly connector: ConnectorService,
+              readonly models: ModelsService,
+              readonly route: ActivatedRoute) {}
+
+  prevContracts$ = new Subject<string[]>();
 
   deployArguments: { name: string; type: string; control: FormControl }[] = [];
   contractAddress: string = ``;
-  prevContracts: string[] = [];
   activeContractAddress: string = ``;
   customContractAddress = new FormControl('', [Validators.required]);
 
   private destroy$ = new Subject();
 
   createDeployArguments(newModel: Model) {
-    const _constructor = newModel.abi.filter(
-      (option) => !option.anonymous && option.type === 'constructor'
-    )[0]?.inputs;
-    const _arguments = (_constructor || []).map(({ name, type }, i) => ({
-      type,
-      name: name || `args${i}`,
-      control: new FormControl(
-        { value: '', disabled: !this.connector.connected$.value },
-        [Validators.required]
-      ),
-    }));
+
+    const makeControl = () =>
+      new FormControl({ value: '', disabled: !this.connector.connected$.value }, [Validators.required])
+
+    const makeArgument = ({name, type}: {name: string, type: string}, i: number) =>
+      ({ type, name: name || `args${i}`, control: makeControl(),})
+
+    const _constructor = newModel.abi.find(({anonymous, type}) => !anonymous && type === 'constructor')?.inputs;
+    const _arguments = (_constructor || []).map(makeArgument);
     this.deployArguments.splice(0, this.deployArguments.length, ..._arguments);
+
   }
 
   ngOnInit(): void {
@@ -61,11 +59,13 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
 
     combineLatest(this.models.deployedContracts$, this.connector.connected$)
       .pipe(takeUntil(this.destroy$),
-        filter(([contracts, connected]) => !!(connected && contracts.length)),
-        map(([contracts, ]) => contracts.filter(m => m.rpc === this.connector.lastConnectedHost)))
+        filter(([contracts, connected]) => !!(connected)),
+        map(([contracts, ]) => contracts.filter(m => m.chainId === this.connector.lastChainId)),
+        map(models => models.filter(({model}) => model === this.route.snapshot.paramMap.get('model'))),
+        map(models => models.map(({contractAddress}) => contractAddress)))
       .subscribe((values) => {
-        const modelName = this.route.snapshot.paramMap.get('model');
-        this.prevContracts = values.filter(({model}) => model === modelName!).map(({contractAddress}) => contractAddress);
+        console.log(values);
+        this.prevContracts$.next(values);
       })
   }
 
@@ -105,10 +105,10 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
     this.models.activeContractAddress$.next(contractAddress);
   }
 
-  addNewContract(contract: string) {
-    const rpc = this.connector.lastConnectedHost;
+  async addNewContract(contract: string) {
+    const chainId = await this.connector.web3Connection.eth.getChainId()
     const modelName = this.route.snapshot.paramMap.get('model');
-    this.models.addDeployedContract(rpc, modelName!, contract);
+    this.models.addDeployedContract(chainId, modelName!, contract);
   }
 
   log(event: any) {

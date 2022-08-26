@@ -5,7 +5,7 @@ import {BehaviorSubject} from 'rxjs';
 import {CustomModel} from 'src/models/customModel';
 import {ConnectorService} from './connector.service';
 
-type DeployedContractMap = {rpc: string, model: string, contractAddress: string};
+type DeployedContractMap = {chainId: number, model: string, contractAddress: string};
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +28,9 @@ export class ModelsService {
 
   readonly deployedContracts$ = new BehaviorSubject<DeployedContractMap[]>([]);
 
-  addDeployedContract(rpc: string, model: string, contractAddress: string) {
+  addDeployedContract(chainId: number, model: string, contractAddress: string) {
     const values = this.deployedContracts$.value;
-    this.deployedContracts$.next([...values, { rpc, model, contractAddress }]);
+    this.deployedContracts$.next([...values, { chainId, model, contractAddress }]);
   }
 
   addModel(contract: any): string {

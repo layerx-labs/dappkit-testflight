@@ -14,7 +14,7 @@
       </div>
       <div class="item">
         <mat-selection-list #contracts [multiple]="false" (selectionChange)="loadContractAddress($event.option.value)">
-          <mat-list-option *ngFor="let address of prevContracts" [value]="address">
+          <mat-list-option *ngFor="let address of (prevContracts$ | async)" [value]="address">
             {{address}}
           </mat-list-option>
         </mat-selection-list>
