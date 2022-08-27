@@ -11,7 +11,8 @@ import {filter, Subject, switchMap, switchScan, takeUntil} from "rxjs";
 export class ConnectionComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject<boolean>();
 
-  constructor(readonly connector: ConnectorService, readonly models: ModelsService) { }
+  constructor(readonly connector: ConnectorService,
+              readonly models: ModelsService) { }
 
   ngOnInit(): void {
 

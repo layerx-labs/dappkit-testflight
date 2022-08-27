@@ -19,19 +19,30 @@
               </mat-form-field>
             </div>
           </ng-container>
+
+          <mat-form-field>
+            <mat-label>Search network to connect</mat-label>
+            <mat-autocomplete [displayWith]="displaySelectedChain" #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredChainList | async" [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+            <input type="text" matInput [formControl]="selectedChain" [matAutocomplete]="auto" />
+          </mat-form-field>
+
         </ng-container>
         <ng-container *ngSwitchCase="false"><a href="https://metamask.io/" target="_blank">Install metamask</a>
         </ng-container>
       </ng-container>
 
     <div>
-      <button mat-raised-button color="primary" [style.width]="'100%'" (click)="connector.connect()">connect</button>
+      <button mat-raised-button color="primary" [style.width]="'100%'" (click)="connect()">connect</button>
     </div>
   </div>
 </ng-container>
-<ng-container *ngIf="activeAddress">
+<ng-container *ngIf="viewAddress">
   <mat-toolbar>
-    <mat-toolbar-row [style.justify-content]="'center'"><span>{{activeAddress}}</span></mat-toolbar-row>
+    <mat-toolbar-row [style.justify-content]="'center'"><span>{{viewAddress}}</span></mat-toolbar-row>
     <mat-toolbar-row [style]="{justifyContent: 'center', height: 'auto', marginTop: '-1.5rem'}" *ngIf="(connector.wrongChain$ | async)">
       <span [style.color]="'darkred'" [style.font-weight]="'lighter'" [style.font-size]="'small'">Please, change to the correct chain</span>
     </mat-toolbar-row>

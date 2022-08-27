@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-title>Deployed Contracts</mat-card-title>
+  <mat-card-subtitle>Select any from the list or use the custom input</mat-card-subtitle>
+  <mat-card-content>
+    <ng-container *ngIf="!(prevContracts$ | async)?.length">
+      <p>List is empty</p>
+    </ng-container>
+    <mat-selection-list #contracts
+                        [multiple]="false"
+                        (selectionChange)="loadContractAddress($event.option.value)">
+      <mat-list-option *ngFor="let address of (prevContracts$ | async)" [value]="address">
+        <mat-icon *ngIf="address === (models.activeContractAddress$ | async)" color="accent">done</mat-icon> {{address}}
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-divider></mat-divider>
+    <mat-form-field [style.margin-top]="'1rem'">
+      <mat-label>Custom contract address</mat-label>
+      <input matInput [formControl]="customContractAddress" />
+      <mat-error *ngIf="customContractAddress.hasError('required')">contract address is required</mat-error>
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button (click)="loadContractAddress()" color="primary"
+            [disabled]="!(connector.connected$ | async) || !customContractAddress.value || customContractAddress.invalid">Load custom address</button>
+  </mat-card-actions>
+</mat-card>

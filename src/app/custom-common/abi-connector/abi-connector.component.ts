@@ -10,6 +10,9 @@ import { ConnectorService } from '../connector.service';
 })
 export class AbiConnectorComponent implements OnInit {
   @Input() model!: Model;
+
+  public selectedMiniFab = 0;
+
   constructor(readonly connector: ConnectorService,
               readonly route: ActivatedRoute) {}
 

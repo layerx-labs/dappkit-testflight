@@ -23,6 +23,10 @@ import {RoutingModule} from "../routing.module";
 import { TruncateWalletPipe } from './pipes/truncate-wallet.pipe';
 import { ConnectionComponent } from './connection/connection.component';
 import { NotConnectedOrActiveModelComponent } from './not-connected-or-active-model/not-connected-or-active-model.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { DeployedContractsComponent } from './deployed-contracts/deployed-contracts.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 const sharedModules = [
   MatButtonModule,
@@ -53,6 +57,7 @@ const sharedModules = [
     TruncateWalletPipe,
     ConnectionComponent,
     NotConnectedOrActiveModelComponent,
+    DeployedContractsComponent,
   ],
   imports: [
     ...sharedModules,
@@ -60,6 +65,9 @@ const sharedModules = [
     MatInputModule,
     MatButtonModule,
     MatTabsModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatSidenavModule,
   ],
   exports: [
     ...sharedModules,

@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConnectorService} from "../connector.service";
 import {BehaviorSubject} from "rxjs";
-import {Model} from "@taikai/dappkit";
 
 @Component({
   selector: 'app-not-connected-or-active-model',

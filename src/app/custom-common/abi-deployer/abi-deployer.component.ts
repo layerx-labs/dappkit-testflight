@@ -55,18 +55,6 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
       .subscribe((value: boolean) => {
         this.deployArguments.forEach(entry => entry.control[!value ? 'disable' : 'enable']({emitEvent: true}));
       });
-
-
-    combineLatest(this.models.deployedContracts$, this.connector.connected$)
-      .pipe(takeUntil(this.destroy$),
-        filter(([contracts, connected]) => !!(connected)),
-        map(([contracts, ]) => contracts.filter(m => m.chainId === this.connector.lastChainId)),
-        map(models => models.filter(({model}) => model === this.route.snapshot.paramMap.get('model'))),
-        map(models => models.map(({contractAddress}) => contractAddress)))
-      .subscribe((values) => {
-        console.log(values);
-        this.prevContracts$.next(values);
-      })
   }
 
   ngOnDestroy() {
@@ -86,23 +74,11 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
       const _arguments = this.deployArguments.map(entry => entry.control.value);
       const deployed = await activeModel.deployJsonAbi(..._arguments)
       this.models.output$.next(deployed);
-      this.addNewContract(deployed.contractAddress);
+      await this.addNewContract(deployed.contractAddress);
     } catch (e) {
       console.error(e)
       this.models.output$.next(e as any);
     }
-  }
-
-  loadContractAddress(contractAddress = this.customContractAddress.value) {
-    const _activeModel = this.models.activeModel$.value;
-    const _model = new Model(
-      this.connector.web3Connection,
-      _activeModel!.abi,
-      contractAddress
-    );
-    _model.loadContract();
-    this.models.activeModel$.next(_model);
-    this.models.activeContractAddress$.next(contractAddress);
   }
 
   async addNewContract(contract: string) {

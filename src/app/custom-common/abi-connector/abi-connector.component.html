@@ -1,9 +1,35 @@
 <app-page-header [title]="route.snapshot.paramMap.get('model') || ''"></app-page-header>
-<div class="construct">
+<div>
   <mat-tab-group animationDuration="0ms">
-    <mat-tab label="Interaction">
-      <app-abi-deployer [abi]="model.abi"></app-abi-deployer>
-      <app-abi-methods></app-abi-methods>
+    <mat-tab label="Interaction" [style.padding-left]="'7rem'">
+      <mat-drawer-container [style.padding-left]="'7rem'" autosize [style.background-color]="'#eee'">
+        <mat-drawer #drawer mode="over" [autoFocus]="false" position="end">
+          <ng-container [ngSwitch]="selectedMiniFab">
+            <ng-container *ngSwitchCase="1">
+              <app-abi-deployer [abi]="model.abi"></app-abi-deployer>
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+              <app-deployed-contracts></app-deployed-contracts>
+            </ng-container>
+          </ng-container>
+        </mat-drawer>
+        <div [style]="{position: 'absolute', right: '1rem', zIndex: 1000}">
+          <p>
+            <button mat-mini-fab color="primary" (click)="selectedMiniFab = 1; drawer.toggle()">
+              <mat-icon>note_add</mat-icon>
+            </button>
+          </p>
+          <p>
+            <button mat-mini-fab color="primary" (click)="selectedMiniFab = 2; drawer.toggle()">
+              <mat-icon>list</mat-icon>
+            </button>
+          </p>
+        </div>
+        <app-abi-methods [style]="{display: 'block', paddingRight: '7rem'}"></app-abi-methods>
+
+      </mat-drawer-container>
     </mat-tab>
   </mat-tab-group>
 </div>
+
+

@@ -1,7 +1,7 @@
 <app-connection></app-connection>
 
 <mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav [style.width]="'20.3rem'">
+  <mat-sidenav #sidenav [style.width]="'20.3rem'" [autoFocus]="false">
     <app-connector [showInputs]="false"></app-connector>
     <mat-divider></mat-divider>
     <app-navbar (sidenav)="sidenav.toggle()"></app-navbar>
