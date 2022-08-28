@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ModelPageComponent } from './model-page/model-page.component';
 import { CustomModelComponent } from './custom-model/custom-model.component';
 import dappkitPackage from '@taikai/dappkit/package.json';
+import {BountyToken, ERC20, Network_v2, NetworkRegistry} from "@taikai/dappkit";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import dappkitPackage from '@taikai/dappkit/package.json';
     MatSidenavModule,
   ],
   providers: [
-    {provide: 'DAPPKIT_VERSION', useValue: dappkitPackage?.version}
+    {provide: 'DAPPKIT_VERSION', useValue: dappkitPackage?.version},
+    {provide: 'DAPPKIT_MODELS', useValue: {Network_v2, NetworkRegistry, ERC20, BountyToken, }},
   ],
   bootstrap: [AppComponent]
 })

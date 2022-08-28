@@ -1,5 +1,5 @@
 <mat-nav-list>
-  <mat-list-item *ngFor="let link of links" (click)="toggle()" [routerLink]="link.href">
+  <mat-list-item *ngFor="let link of (links$ | async)" (click)="toggle()" [routerLink]="link.href">
     <a>{{ link.name }}</a>
   </mat-list-item>
   <mat-divider></mat-divider>

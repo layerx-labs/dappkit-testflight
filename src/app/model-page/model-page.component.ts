@@ -20,7 +20,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
 
   changeModelOnPage() {
     const modelName = this.activeRoute.snapshot.paramMap.get('model');
-    if (!modelName || !Object.keys(this.models.Models$.value).includes(modelName))
+    if (!modelName || !Object.keys(this.models.models$.value).includes(modelName))
       this.router.navigate(['/']);
 
     else this.loadModelFromRouteParam(modelName);

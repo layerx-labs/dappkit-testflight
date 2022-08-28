@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {ERC20, Erc721Standard, Model, Network} from '@taikai/dappkit';
+import {Injectable, Injector} from '@angular/core';
+import {Model,} from '@taikai/dappkit';
 import {TransactionReceipt} from '@taikai/dappkit/dist/src/interfaces/web3-core';
 import {BehaviorSubject} from 'rxjs';
 import {CustomModel} from 'src/models/customModel';
@@ -11,16 +11,13 @@ type DeployedContractMap = {chainId: number, model: string, contractAddress: str
   providedIn: 'root'
 })
 export class ModelsService {
-  constructor(readonly connector: ConnectorService) {}
+  constructor(readonly connector: ConnectorService,
+              readonly injector: Injector) {}
 
   readonly activeContractAddress$ = new BehaviorSubject<string>('');
   readonly activeModel$ = new BehaviorSubject<Model|null>(null);
 
-  public Models$ = new BehaviorSubject<{ [k: string]: any }>({
-    Network,
-    ERC20,
-    Erc721Standard,
-  });
+  readonly models$ = new BehaviorSubject<{ [k: string]: any }>(this.injector.get('DAPPKIT_MODELS'));
 
   jsonAbi: { [contractsNames: string]: any } = {};
 
@@ -34,16 +31,16 @@ export class ModelsService {
   }
 
   addModel(contract: any): string {
-    const currentList = this.Models$.value;
+    const currentList = this.models$.value;
     const index = Object.keys(currentList).filter((key) => key.startsWith(contract?.contractName)).length;
     const key = index > 0 ? contract.contractName.concat(`_${index}`) : contract.contractName;
     this.jsonAbi[key] = contract;
-    this.Models$.next({ ...currentList, [key]: CustomModel });
+    this.models$.next({ ...currentList, [key]: CustomModel });
     return key;
   }
 
   initModule(moduleName: string) {
-    const module = this.Models$.value[moduleName];
+    const module = this.models$.value[moduleName];
     const jsonAbi = this.jsonAbi?.[moduleName];
 
     return jsonAbi
