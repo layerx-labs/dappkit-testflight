@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConnectorService} from "../connector.service";
 import {ModelsService} from "../models.service";
-import {filter, Subject, switchMap, switchScan, takeUntil} from "rxjs";
+import {combineLatest, filter, Subject, switchMap, switchScan, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-connection',
@@ -29,6 +29,14 @@ export class ConnectionComponent implements OnInit, OnDestroy {
         model?.loadAbi();
         this.models.activeModel$.next(model);
       });
+
+    this.connector.address$
+      .pipe(takeUntil(this.destroyed$),
+        filter(v => !!v))
+      .subscribe((address: string) => {
+        this.models.output$.next({connected: new Date(), chainId: this.connector.lastChainId, address} as any)
+      })
+
   }
 
   ngOnDestroy() {

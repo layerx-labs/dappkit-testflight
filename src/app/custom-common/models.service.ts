@@ -24,7 +24,7 @@ export class ModelsService {
 
   jsonAbi: { [contractsNames: string]: any } = {};
 
-  output$ = new BehaviorSubject<TransactionReceipt|string>("");
+  output$ = new BehaviorSubject<TransactionReceipt|null>(null);
 
   readonly deployedContracts$ = new BehaviorSubject<DeployedContractMap[]>([]);
 

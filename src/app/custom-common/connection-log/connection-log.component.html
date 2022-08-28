@@ -1,0 +1,11 @@
+<mat-accordion>
+  <mat-expansion-panel [style.border-radius]="0">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Log</mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngFor="let line of output">
+      <mat-divider></mat-divider>
+      <pre>{{line}}</pre>
+    </ng-container>
+  </mat-expansion-panel>
+</mat-accordion>

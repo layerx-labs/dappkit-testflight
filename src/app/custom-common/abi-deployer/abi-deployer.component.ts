@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Model } from '@taikai/dappkit';
-import {map, Subject, takeUntil, combineLatest, filter} from 'rxjs';
+import { Subject, takeUntil, } from 'rxjs';
 import { AbiItem } from 'web3-utils';
 import { ConnectorService } from '../connector.service';
 import { ModelsService } from '../models.service';
@@ -17,8 +17,6 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
   constructor(readonly connector: ConnectorService,
               readonly models: ModelsService,
               readonly route: ActivatedRoute) {}
-
-  prevContracts$ = new Subject<string[]>();
 
   deployArguments: { name: string; type: string; control: FormControl }[] = [];
   contractAddress: string = ``;

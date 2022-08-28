@@ -22,7 +22,6 @@ export class AbiMethodsComponent implements OnInit, OnDestroy {
 
   readonly methods: Method[] = [];
   readonly contractAddress = new FormControl('', [Validators.required]);
-  public output = ``;
 
   transpileFunctions() {
     const _activeModel = this.models.activeModel$.value!;
@@ -46,16 +45,6 @@ export class AbiMethodsComponent implements OnInit, OnDestroy {
     this.models.activeModel$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.transpileFunctions());
-
-    this.models.output$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value: string | TransactionReceipt) => {
-        this.output = JSON.stringify(value, null, 2)
-      });
-
-    this.connector.connected$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.models.output$.next('{}'))
   }
 
   async callContractMethod(method: Method) {

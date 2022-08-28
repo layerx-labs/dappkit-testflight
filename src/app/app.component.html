@@ -15,8 +15,9 @@
        <span>@taikai/dappkit#{{dappkitVersion}}</span>
        </mat-toolbar>
     </div>
-    <div>
+    <div [style.padding-bottom]="'3.5rem'">
       <router-outlet></router-outlet>
     </div>
+    <app-abi-connection-log></app-abi-connection-log>
   </mat-sidenav-content>
 </mat-sidenav-container>

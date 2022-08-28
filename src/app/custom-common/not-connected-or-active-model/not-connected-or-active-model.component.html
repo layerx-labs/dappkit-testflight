@@ -1,6 +1,0 @@
-<ng-container [ngSwitch]="(connector.connected$ | async)">
-  <mat-card-subtitle *ngSwitchCase="false">Not connected. Please, initiate a RPC connection on the sidenav</mat-card-subtitle>
-  <ng-container *ngSwitchCase="true">
-    <mat-card-subtitle *ngIf="!(modelValue$ | async)">No active model. Please choose one from the sidenav</mat-card-subtitle>
-  </ng-container>
-</ng-container>
