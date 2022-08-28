@@ -91,10 +91,11 @@ export class ConnectorComponent implements OnInit, OnDestroy, AfterViewInit {
               .filter(({name, shortName, nativeCurrency: {symbol, name: cName}}) =>
               typeof v === "string"
                 ? [name, shortName, symbol, cName].some(k => k.toLowerCase().includes((v || '').toLowerCase()))
-                : typeof v === "object" ? name === v.name : false
-              )
-          )
-        )
+                : typeof v === "object"
+                  ? name === v.name
+                  : !v
+                    ? this.connector.chainList$.getValue()
+                    : false)))
 
     this.selectedChain.valueChanges
       .pipe(
@@ -111,6 +112,16 @@ export class ConnectorComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.wrongChainId = bool;
       });
+
+    this.selectedChain.valueChanges
+      .pipe(
+        takeUntil(this.destroyed$),
+        filter(v => !v))
+      .subscribe(() => {
+        this.wrongChainId = false;
+        this.connector.wantsChainId$.next(0);
+        this.snack.dismiss();
+      })
 
   }
 
@@ -149,6 +160,10 @@ export class ConnectorComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.wrongChainId)
       await this.connector.connect();
     else {
+
+      if (!this.selectedChain.value)
+        return this.connector.connect();
+
       const request = (method: string, params: {[key: string]: any}[]) =>
         (window as any).ethereum.request({method, params});
 

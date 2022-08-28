@@ -1,8 +1,17 @@
 <mat-accordion>
-  <mat-expansion-panel [style.border-radius]="0">
+  <mat-expansion-panel [style.border-radius]="0" [ngClass]="{fullscreen: fullscreen}">
     <mat-expansion-panel-header>
-      <mat-panel-title>Log</mat-panel-title>
+      <mat-panel-title>
+        Log
+        <div [ngStyle]="{position: 'absolute', right: '2rem'}">
+        </div>
+      </mat-panel-title>
     </mat-expansion-panel-header>
+    <div class="container" [style.justify-content]="'end'">
+      <button mat-button (click)="fullscreen = !fullscreen">
+        toggle fullscreen
+      </button>
+    </div>
     <ng-container *ngFor="let line of output">
       <mat-divider></mat-divider>
       <pre>{{line}}</pre>

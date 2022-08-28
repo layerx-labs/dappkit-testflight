@@ -12,6 +12,7 @@ import {DestroyerService} from "../destroyer.service";
 export class ConnectionLogComponent implements OnInit {
 
   public output: string[] = [];
+  public fullscreen = false;
 
   constructor(readonly models: ModelsService,
               readonly destroyer: DestroyerService,
