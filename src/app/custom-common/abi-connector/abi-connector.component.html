@@ -1,45 +1,28 @@
 <app-page-header [title]="route.snapshot.paramMap.get('model') || ''"></app-page-header>
-<div>
-  <mat-tab-group animationDuration="0ms">
-    <mat-tab label="Interaction" [style.padding-left]="'7rem'">
-      <mat-drawer-container [style.padding-left]="'7rem'" autosize [style.background-color]="'#eee'">
-        <mat-drawer #drawer mode="over" [autoFocus]="false" position="end" [style.width]="'20.3rem'">
-          <ng-container [ngSwitch]="selectedMiniFab">
-            <ng-container *ngSwitchCase="1">
-              <app-abi-deployer [abi]="model.abi"></app-abi-deployer>
-            </ng-container>
-            <ng-container *ngSwitchCase="2">
-              <app-deployed-contracts></app-deployed-contracts>
-            </ng-container>
-          </ng-container>
-        </mat-drawer>
-        <div [style]="{position: 'fixed', right: '1rem', zIndex: 1000}">
-          <p>
-            <button mat-mini-fab color="primary" (click)="selectedMiniFab = 1; drawer.toggle()">
-              <mat-icon>note_add</mat-icon>
-            </button>
-          </p>
-          <p>
-            <button mat-mini-fab color="primary" (click)="selectedMiniFab = 2; drawer.toggle()">
-              <mat-icon>list</mat-icon>
-            </button>
-          </p>
-        </div>
-        <app-abi-methods [style]="{display: 'block', paddingRight: '7rem'}"></app-abi-methods>
-      </mat-drawer-container>
-    </mat-tab>
-    <mat-tab label="Transpile" [style.padding-left]="'7rem'">
-      <mat-drawer-container [style.padding-left]="'7rem'" autosize [style.background-color]="'#eee'">
-        <mat-card>
-          <mat-card-title>Transpiled</mat-card-title>
-          <mat-card-subtitle>using @taikai/dappkit-launchpad#version</mat-card-subtitle>
-          <mat-card-content>
-            yo
-          </mat-card-content>
-        </mat-card>
-      </mat-drawer-container>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+<mat-drawer-container autosize [style.background-color]="'#eee'" [style.padding-left]="'7rem'" [style.padding-top]="'3rem'">
+  <mat-drawer #drawer mode="over" [autoFocus]="false" position="end" [style.width]="'30.3rem'">
+  <ng-container [ngSwitch]="selectedMiniFab">
+    <ng-container *ngSwitchCase="1">
+      <app-abi-deployer [abi]="model.abi"></app-abi-deployer>
+    </ng-container>
+    <ng-container *ngSwitchCase="2">
+      <app-deployed-contracts></app-deployed-contracts>
+    </ng-container>
+  </ng-container>
+</mat-drawer>
+  <div [style]="{position: 'fixed', right: '1rem'}">
+    <p>
+      <button mat-mini-fab color="primary" (click)="selectedMiniFab = 1; drawer.toggle()">
+        <mat-icon>note_add</mat-icon>
+      </button>
+    </p>
+    <p>
+      <button mat-mini-fab color="primary" (click)="selectedMiniFab = 2; drawer.toggle()">
+        <mat-icon>list</mat-icon>
+      </button>
+    </p>
+  </div>
+  <app-abi-methods [style]="{display: 'block', paddingRight: '7rem'}"></app-abi-methods>
+</mat-drawer-container>
 
 

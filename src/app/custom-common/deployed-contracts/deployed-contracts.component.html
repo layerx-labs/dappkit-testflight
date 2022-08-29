@@ -8,8 +8,8 @@
     <mat-selection-list #contracts
                         [multiple]="false"
                         (selectionChange)="loadContractAddress($event.option.value)">
-      <mat-list-option *ngFor="let address of (prevContracts$ | async)" [value]="address">
-        <mat-icon *ngIf="address === (models.activeContractAddress$ | async)" color="accent">done</mat-icon> {{address}}
+      <mat-list-option *ngFor="let address of (prevContracts$ | async)" [value]="address" [selected]="address === (models.activeContractAddress$ | async)">
+        {{address}}
       </mat-list-option>
     </mat-selection-list>
     <mat-divider></mat-divider>
