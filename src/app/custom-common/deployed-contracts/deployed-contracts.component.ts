@@ -37,10 +37,14 @@ export class DeployedContractsComponent implements OnInit, OnDestroy {
 
   loadContractAddress(contractAddress = this.customContractAddress.value) {
     const _activeModel = this.models.activeModel$.value;
-    const _model = new Model(this.connector.web3Connection, _activeModel!.abi, contractAddress);
-    _model.loadContract();
-    this.models.activeModel$.next(_model);
-    this.models.activeContractAddress$.next(contractAddress);
+    try {
+      const _model = new Model(this.connector.web3Connection, _activeModel!.abi, contractAddress);
+      _model.loadContract();
+      this.models.activeModel$.next(_model);
+      this.models.activeContractAddress$.next(contractAddress);
+    } catch (e: any) {
+      this.models.output$.next(e?.message as any || e)
+    }
   }
 
   ngOnDestroy() {
