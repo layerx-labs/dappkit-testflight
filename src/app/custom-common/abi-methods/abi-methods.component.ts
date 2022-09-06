@@ -49,9 +49,13 @@ export class AbiMethodsComponent implements OnInit, OnDestroy {
 
   async callContractMethod(method: Method) {
     const _model = this.models.activeModel$.value!;
-    const _args = method.arguments.map(option => option.control.value);
+    const _args = method.arguments.filter(option => option.control.value != undefined).map(option => JSON.parse(option.control.value));
+    if (_args.length != method.arguments.length)
+      return;
+
     const action = _args.length ? _model.contract.methods[method.name](..._args) : _model.contract.methods[method.name]();
     let output;
+
     try {
       if (method.view)
         output = await _model.callTx(action);
@@ -61,7 +65,7 @@ export class AbiMethodsComponent implements OnInit, OnDestroy {
       output = e;
     }
 
-    this.models.output$.next(output);
+    this.connector.output$.next(output);
   }
 
 }

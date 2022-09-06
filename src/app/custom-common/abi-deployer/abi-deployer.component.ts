@@ -71,11 +71,11 @@ export class AbiDeployerComponent implements OnInit, OnDestroy {
     try {
       const _arguments = this.deployArguments.map(entry => entry.control.value);
       const deployed = await activeModel.deployJsonAbi(..._arguments)
-      this.models.output$.next(deployed);
+      this.connector.output$.next(deployed);
       await this.addNewContract(deployed.contractAddress);
-    } catch (e) {
-      console.error(e)
-      this.models.output$.next(e as any);
+    } catch (e: any) {
+      console.error(e);
+      this.connector.output$.next(e?.message || e);
     }
   }
 

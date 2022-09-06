@@ -17,7 +17,6 @@ export class DeployedContractsComponent implements OnInit, OnDestroy {
               readonly route: ActivatedRoute) { }
 
   private destroy$ = new Subject();
-
   readonly customContractAddress = new FormControl('', [Validators.required]);
   readonly prevContracts$ = new BehaviorSubject<string[]>([]);
 
@@ -30,7 +29,6 @@ export class DeployedContractsComponent implements OnInit, OnDestroy {
         map(models => models.filter(({model}) => model === this.route.snapshot.paramMap.get('model'))),
         map(models => models.map(({contractAddress}) => contractAddress)))
       .subscribe((values) => {
-        console.log(values);
         this.prevContracts$.next(values);
       })
   }
@@ -43,7 +41,8 @@ export class DeployedContractsComponent implements OnInit, OnDestroy {
       this.models.activeModel$.next(_model);
       this.models.activeContractAddress$.next(contractAddress);
     } catch (e: any) {
-      this.models.output$.next(e?.message as any || e)
+      console.error(e)
+      this.connector.output$.next(e?.message || e)
     }
   }
 

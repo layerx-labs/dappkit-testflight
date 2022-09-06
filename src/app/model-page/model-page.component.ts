@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Model } from '@taikai/dappkit';
+import {Model, Web3Connection} from '@taikai/dappkit';
 import {filter, Subject, takeUntil, takeWhile} from 'rxjs';
 import { ConnectorService } from '../custom-common/connector.service';
 import { ModelsService } from '../custom-common/models.service';
@@ -46,13 +46,14 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   activeModel: Model|null = null;
 
   loadModelFromRouteParam(modelName: string) {
+    if (!this.connector.web3Connection)
+      return;
+
     const _proxy = this.models.initModule(modelName);
 
     _proxy.loadAbi();
 
     this.models.activeModel$.next(_proxy);
-    console.log(_proxy);
-    console.log(this.models.activeModel$.getValue())
   }
 
   ngOnDestroy() {

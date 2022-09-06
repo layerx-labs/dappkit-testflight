@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConnectorService} from "../connector.service";
 import {ModelsService} from "../models.service";
-import {combineLatest, filter, Subject, switchMap, switchScan, takeUntil} from "rxjs";
+import {combineLatest, filter, map, Subject, switchMap, switchScan, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-connection',
@@ -23,7 +23,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroyed$),
         filter(v => v === true),
-        switchMap(_ => this.models.activeModel$),
+        map(_ => this.models.activeModel$.getValue()),
         filter(v => !!v))
       .subscribe((model) => {
         model?.loadAbi();
@@ -34,7 +34,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$),
         filter(v => !!v))
       .subscribe((address: string) => {
-        this.models.output$.next({connected: new Date(), chainId: this.connector.lastChainId, address} as any)
+        this.connector.output$.next({connected: new Date(), chainId: this.connector.lastChainId, address} as any)
       })
 
   }

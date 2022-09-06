@@ -16,14 +16,10 @@ export class ModelsService {
 
   readonly activeContractAddress$ = new BehaviorSubject<string>('');
   readonly activeModel$ = new BehaviorSubject<Model|null>(null);
-
   readonly models$ = new BehaviorSubject<{ [k: string]: any }>(this.injector.get('DAPPKIT_MODELS'));
+  readonly deployedContracts$ = new BehaviorSubject<DeployedContractMap[]>([]);
 
   jsonAbi: { [contractsNames: string]: any } = {};
-
-  output$ = new BehaviorSubject<TransactionReceipt|null>(null);
-
-  readonly deployedContracts$ = new BehaviorSubject<DeployedContractMap[]>([]);
 
   addDeployedContract(chainId: number, model: string, contractAddress: string) {
     const values = this.deployedContracts$.value;

@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ModelsService} from "../models.service";
 import {filter, map, takeUntil} from "rxjs";
 import {DestroyerService} from "../destroyer.service";
+import {ConnectorService} from "../connector.service";
 
 @Component({
   selector: 'app-abi-connection-log',
@@ -14,12 +14,12 @@ export class ConnectionLogComponent implements OnInit {
   public output: string[] = [];
   public fullscreen = false;
 
-  constructor(readonly models: ModelsService,
+  constructor(readonly connector: ConnectorService,
               readonly destroyer: DestroyerService,
               readonly cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.models.output$
+    this.connector.output$
       .pipe(
         takeUntil(this.destroyer.destroyed$),
         filter(v => !!v),
